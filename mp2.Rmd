@@ -20,4 +20,23 @@ load("committees.rda")
 load("contributions.rda")
 ```
 
+```{r}
+candidates %>%
+  select(cand_id, cand_name, cand_party_affiliation, cand_office_state, cand_election_yr) %>%
+  filter(cand_election_yr=="2012")
+```
+
+```{r}
+contributions %>%
+  select(cand_id,name,transaction_amt)
+```
+
+```{r}
+cand_contribution_join <- candidates %>%
+  full_join(contributions, by="cand_id")
+
+cand_contribution_join
+```
+
+
 Word count: `r wordcountaddin::word_count()`
