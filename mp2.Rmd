@@ -30,10 +30,10 @@ contributions_data<-contributions %>%
 ```
 
 ```{r}
-cand_contribution_join <- candidates_data %>%
+candidate_contribution_join <- candidates_data %>%
   full_join(contributions_data, by="cand_id")
 
-cand_contribution_join
+candidate_contribution_join
 ```
 
 
