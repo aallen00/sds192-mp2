@@ -7,10 +7,8 @@ output:
     code_folding: show
 ---
 
-
 ## Loading the data
 
-This project is so interesting and relevant to my life! Heyyyyy Naomi!! what is up??
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -21,19 +19,19 @@ load("contributions.rda")
 ```
 
 ```{r}
-candidates %>%
+candidates_data<-candidates %>%
   select(cand_id, cand_name, cand_party_affiliation, cand_office_state, cand_election_yr) %>%
   filter(cand_election_yr=="2012")
 ```
 
 ```{r}
-contributions %>%
+contributions_data<-contributions %>%
   select(cand_id,name,transaction_amt)
 ```
 
 ```{r}
-cand_contribution_join <- candidates %>%
-  full_join(contributions, by="cand_id")
+cand_contribution_join <- candidates_data %>%
+  full_join(contributions_data, by="cand_id")
 
 cand_contribution_join
 ```
