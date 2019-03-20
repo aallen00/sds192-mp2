@@ -32,8 +32,12 @@ contributions_data<-contributions %>%
 ```{r}
 candidate_contribution_join <- candidates_data %>%
   full_join(contributions_data, by="cand_id")
+```
 
-candidate_contribution_join
+```{r}
+blehhh<-candidate_contribution_join %>%
+  group_by(cand_office_state) %>%
+  summarise(n=sum(abs(transaction_amt),na.rm=TRUE))
 ```
 
 
