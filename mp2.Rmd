@@ -44,6 +44,16 @@ money_states<-candidate_contribution_join %>%
   filter(!cand_office_state %in% c("PR","US","VI","AS","GU","MP","DC"))
 ```
 
+```{r}
+ratio_function<-function(state_arg) {
+  money_states %>%
+  mutate(cand_office_state==state_arg,total = sum(total_amt),
+ratio = (total_amt/total)*100)
+}
+
+map_ratio <- map_df(c("AK","AL"),ratio_function)
+```
+
 
 
 Word count: `r wordcountaddin::word_count()`
