@@ -1,3 +1,4 @@
+
 ---
 title: "Mini-Project 2"
 author: 
@@ -6,7 +7,6 @@ output:
   html_document:
     code_folding: show
 ---
-
 ## Loading the data
 
 
@@ -20,7 +20,7 @@ load("contributions.rda")
 
 ```{r}
 candidates_data<-candidates %>%
-  select(cand_id, cand_name, cand_election_yr,cand_party_affiliation) %>%
+  select(cand_id, cand_name, cand_election_yr,cand_party_affiliation,cand_office_state) %>%
   filter(cand_election_yr=="2012")
 ```
 
@@ -70,7 +70,8 @@ ratio_plot <-ggplot(map_ratio_order, aes(x = fct_inorder(cand_office_state),
   geom_bar(stat="identity", position="fill")+
   scale_fill_manual(values = c("DEM" = "#0C25D4", "REP" = "#DC143C"))+
   theme_minimal()+
-  labs(title = "Amount of Money Donated to Each State in 2012 House Election", x= "State", y="Percent of Total Donation Per Party")
+  labs(title = "Amount of Money Donated to Each State in 2012 House Election", x= "State", y="Percent of Total Donations By Party")+
+  coord_flip()
 
 ratio_plot
 ```
