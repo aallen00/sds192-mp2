@@ -47,7 +47,8 @@ money_states<-candidate_contribution_join %>%
 ```{r}
 ratio_function<-function(state_arg) {
   money_states %>%
-  mutate(cand_office_state==state_arg,total = sum(total_amt),
+    filter(cand_office_state == state_arg)%>%
+  mutate(total = sum(total_amt),
 ratio = (total_amt/total)*100)
 }
 
