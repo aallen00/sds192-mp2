@@ -57,10 +57,13 @@ map_ratio <- map_df(c("AK","AL", "AR","AZ", "CA", "CO", "CT", "DE", "FL", "GA", 
 
 ```{r}
 map_ratio_order <- map_ratio %>%
-  mutate(rep_percent = )%>%
+  mutate(rep_percent = ifelse(
+    cand_party_affiliation == "REP", 1, 0))%>%
   arrange(-rep_percent)
+```
 
-ratio_plot <-ggplot(ratio, aes(x = fct_inorder(cand_office_state), 
+```{r}
+ratio_plot <-ggplot(map_ratio_order, aes(x = fct_inorder(cand_office_state), 
                                y = ratio, 
                                fill = cand_party_affiliation))+
   geom_bar(stat="identity", position="fill")+
