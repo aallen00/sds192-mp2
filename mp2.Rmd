@@ -57,6 +57,7 @@ map_ratio <- map_df(c("AK","AL", "AR","AZ", "CA", "CO", "CT", "DE", "FL", "GA", 
 
 ```{r}
 map_ratio_order <- map_ratio %>%
+  arrange(-ratio)%>%
   mutate(rep_percent = ifelse(
     cand_party_affiliation == "REP", 1, 0))%>%
   arrange(-rep_percent)
