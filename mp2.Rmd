@@ -68,7 +68,7 @@ ratio_plot <-ggplot(map_ratio_order, aes(x = fct_inorder(cand_office_state),
                                fill = cand_party_affiliation))+
   geom_bar(stat="identity", position="fill")+
   scale_fill_manual(values = c("DEM" = "#0C25D4", "REP" = "#DC143C"))+
-  theme_minimal()
+  theme_minimal() 
 
 ratio_plot
 ```
