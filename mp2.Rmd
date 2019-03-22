@@ -39,7 +39,7 @@ candidate_contribution_join <- candidates_data %>%
 ```{r}
 money_states<-candidate_contribution_join %>%
   filter(cand_party_affiliation=="DEM"|cand_party_affiliation=="REP") %>%
-  group_by(cand_office_state,cand_party_affiliation) %>%
+  group_by(cand_office_state, cand_party_affiliation) %>%
   summarise(total_amt=sum(abs(transaction_amt),na.rm=TRUE)) %>%
   filter(!cand_office_state %in% c("PR","US","VI","AS","GU","MP","DC"))
 ```
@@ -68,7 +68,12 @@ ratio_plot <-ggplot(map_ratio_order, aes(x = fct_inorder(cand_office_state),
                                fill = cand_party_affiliation))+
   geom_bar(stat="identity", position="fill")+
   scale_fill_manual(values = c("DEM" = "#0C25D4", "REP" = "#DC143C"))+
+<<<<<<< HEAD
   theme_minimal() 
+=======
+  theme_minimal()+
+  labs(title = "Amount of Money Donated to Each State in 2012 House Election", x= "State", y="Percent of Total Donation Per Party")
+>>>>>>> 3effc279a591efbd2d4d615a53fd916f21a3ac0b
 
 ratio_plot
 ```
