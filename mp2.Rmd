@@ -55,6 +55,19 @@ ratio = (total_amt/total)*100)
 map_ratio <- map_df(c("AK","AL", "AR","AZ", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"),ratio_function)
 ```
 
+```{r}
+map_ratio_order <- map_ratio %>%
+  mutate(rep_percent = )%>%
+  arrange(-rep_percent)
 
+ratio_plot <-ggplot(ratio, aes(x = fct_inorder(cand_office_state), 
+                               y = ratio, 
+                               fill = cand_party_affiliation))+
+  geom_bar(stat="identity", position="fill")+
+  scale_fill_manual(values = c("DEM" = "#0C25D4", "REP" = "#DC143C"))+
+  theme_minimal()
+
+ratio_plot
+```
 
 Word count: `r wordcountaddin::word_count()`
