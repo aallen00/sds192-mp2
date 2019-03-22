@@ -20,7 +20,7 @@ load("contributions.rda")
 
 ```{r}
 candidates_data<-candidates %>%
-  select(cand_id, cand_name, cand_party_affiliation, cand_office_state, cand_election_yr,cand_party_affiliation) %>%
+  select(cand_id, cand_name, cand_election_yr,cand_party_affiliation) %>%
   filter(cand_election_yr=="2012")
 ```
 
@@ -38,7 +38,8 @@ candidate_contribution_join <- candidates_data %>%
 
 ```{r}
 money_states<-candidate_contribution_join %>%
-  group_by(cand_office_state) %>%
+  filter(cand_party_affiliation=="DEM"|cand_party_affiliation=="REP") %>%
+  group_by(cand_office_state,cand_party_affiliation) %>%
   summarise(total_amt=sum(abs(transaction_amt),na.rm=TRUE)) %>%
   filter(!cand_office_state %in% c("PR","US","VI","AS","GU","MP","DC"))
 ```
