@@ -1,11 +1,11 @@
 
 ---
 title: "Mini-Project 2"
-author: 
-date: "2019-03-24"
+author: Abby Allen, Caroline E. Choi, Naomi Forman-Katz
+date: "3-24-2019"
 output: 
   html_document:
-    code_folding: show
+    code_folding: hide
 ---
 
 
