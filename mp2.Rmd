@@ -9,7 +9,7 @@ output:
 ---
 
 
-```{r, message=FALSE, echo=FALSE}
+```{r, message=FALSE}
 #load packages----
 library(tidyverse)
 load("house_elections.rda")
@@ -18,7 +18,7 @@ load("committees.rda")
 load("contributions.rda")
 ```
 
-```{r, message=FALSE, echo=FALSE}
+```{r, message=FALSE}
 #select relevant data columns----
 candidates_data<-candidates %>%
   select(cand_id, cand_name, cand_election_yr,cand_party_affiliation,cand_office_state) %>%
@@ -26,14 +26,14 @@ candidates_data<-candidates %>%
 ```
 
 
-```{r, message=FALSE, echo=FALSE}
+```{r, message=FALSE}
 #select relevant data columns---- 
 contributions_data<-contributions %>%
   select(cand_id,name,transaction_amt)
 ```
 
 
-```{r, message=FALSE, echo=FALSE}
+```{r, message=FALSE}
 #join data tables----
 candidate_contribution_join <- candidates_data %>%
   full_join(contributions_data, by="cand_id") 
@@ -42,7 +42,7 @@ candidate_contribution_join <- candidates_data %>%
 
 
 
-```{r, message=FALSE, echo=FALSE}
+```{r, message=FALSE}
 #filtering, grouping, summarizing data----
 money_states<-candidate_contribution_join %>%
   filter(cand_party_affiliation=="DEM"|cand_party_affiliation=="REP") %>%
@@ -52,7 +52,7 @@ money_states<-candidate_contribution_join %>%
 ```
 
 
-```{r, message=FALSE, echo=FALSE}
+```{r, message=FALSE}
 #function to create ratio of republican to democrat----
 ratio_function<-function(state_arg) {
   money_states %>%
@@ -66,7 +66,7 @@ map_ratio <- map_df(c("AK","AL", "AR","AZ", "CA", "CO", "CT", "DE", "FL", "GA", 
 ```
 
 
-```{r, message=FALSE, echo=FALSE}
+```{r, message=FALSE}
 #reordering dataframe to change order of states in plot----
 map_ratio_order <- map_ratio %>%
   arrange(-ratio)%>%
@@ -76,7 +76,7 @@ map_ratio_order <- map_ratio %>%
 ```
 
 
-```{r,fig.height=12, fig.width=10, message=FALSE, echo=FALSE}
+```{r,fig.height=12, fig.width=10, message=FALSE}
 #plotting dataframe----
 ratio_plot <-ggplot(map_ratio_order, aes(x = fct_inorder(cand_office_state), y = ratio, 
           fill = cand_party_affiliation))+
@@ -99,6 +99,6 @@ Knowing the legislative outcomes of the 2012 Congressional Elections, it is clea
 
 **What we can conclude from these data is that in states with a strong political affiliation, Democratic or Republican, candidates in that political party will be the primary focus of campaign donations, whether these donations are to or against that candidate.** For example, in Vermont, a state that is historically Democratic, nearly all campaign donations focus on Democratic candidates, whether these donations are in support of or against them. This illustrates that in Vermont, there is more monetary focus overall on Democratic candidates; Republicans, rather than donating to support their own candidates, appear to be more likely to donate against Democratic candidates. This idea can be generalized in most other states that are historically Democratic or Republican; donations focus on the party that tends to win, whether these donations are in support of or against that party.
 
-The data graphic also illustrates how swing states can be identified through party contribution. The states where the focus of donations to each party candidate was near the 50% line were seen as swing states in 2012. The Washington Post named nine swing states in 2012. All of the states mentioned fall very close to the 50% line. Iowa, Ohio, Colorado, Florida all relatively evenly split between money to Democrat and Republican candidates. If a race is seen as contentious or people think that there is a chance a seat may “swing” to the other party, the donations focusing on a candidate of each party become close. Although money is connected to election outcomes, in the case of swing states and party donation the outcome cannot be predicted by looking at the amount in donations a candidate is receives. Though outcome cannot be identified through candidate contributions, the status of swing state can be seen through contributions focusing on Republican and Democratic candidates. 
+The data graphic also illustrates how swing states can be identified through party contribution. The states where the focus of donations to each party candidate was near the 50% line were seen as swing states in 2012. The Washington Post^[https://www.washingtonpost.com/blogs/the-fix/post/the-9-swing-states-of-2012/2012/04/16/gIQABuXaLT_blog.html?utm_term=.677e0503b378] named nine swing states in 2012. All of the states mentioned fall very close to the 50% line. Iowa, Ohio, Colorado, Florida all relatively evenly split between money to Democrat and Republican candidates. If a race is seen as contentious or people think that there is a chance a seat may “swing” to the other party, the donations focusing on a candidate of each party become close. Although money is connected to election outcomes, in the case of swing states and party donation the outcome cannot be predicted by looking at the amount in donations a candidate is receives. Though outcome cannot be identified through candidate contributions, the status of swing state can be seen through contributions focusing on Republican and Democratic candidates.^[https://github.com/aallen00/sds192-mp2] 
 
 Word count: `r wordcountaddin::word_count()`
