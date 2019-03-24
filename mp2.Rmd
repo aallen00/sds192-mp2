@@ -7,10 +7,10 @@ output:
   html_document:
     code_folding: show
 ---
-## Loading the data
 
 
-```{r, message=FALSE}
+```{r, message=FALSE, echo=FALSE}
+#load packages----
 library(tidyverse)
 load("house_elections.rda")
 load("candidates.rda")
@@ -18,25 +18,32 @@ load("committees.rda")
 load("contributions.rda")
 ```
 
-```{r}
+```{r, message=FALSE, echo=FALSE}
+#select relevant data columns----
 candidates_data<-candidates %>%
   select(cand_id, cand_name, cand_election_yr,cand_party_affiliation,cand_office_state) %>%
   filter(cand_election_yr=="2012")
 ```
 
-```{r}
+
+```{r, message=FALSE, echo=FALSE}
+#select relevant data columns---- 
 contributions_data<-contributions %>%
   select(cand_id,name,transaction_amt)
 ```
 
-```{r}
+
+```{r, message=FALSE, echo=FALSE}
+#join data tables----
 candidate_contribution_join <- candidates_data %>%
   full_join(contributions_data, by="cand_id") 
 
 ```
 
 
-```{r}
+
+```{r, message=FALSE, echo=FALSE}
+#filtering, grouping, summarizing data----
 money_states<-candidate_contribution_join %>%
   filter(cand_party_affiliation=="DEM"|cand_party_affiliation=="REP") %>%
   group_by(cand_office_state, cand_party_affiliation) %>%
@@ -44,7 +51,9 @@ money_states<-candidate_contribution_join %>%
   filter(!cand_office_state %in% c("PR","US","VI","AS","GU","MP","DC"))
 ```
 
-```{r}
+
+```{r, message=FALSE, echo=FALSE}
+#function to create ratio of republican to democrat----
 ratio_function<-function(state_arg) {
   money_states %>%
     filter(cand_office_state == state_arg)%>%
@@ -52,10 +61,13 @@ ratio_function<-function(state_arg) {
 ratio = (total_amt/total)*100)
 }
 
+#map function to all states
 map_ratio <- map_df(c("AK","AL", "AR","AZ", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"),ratio_function)
 ```
 
-```{r}
+
+```{r, message=FALSE, echo=FALSE}
+#reordering dataframe to change order of states in plot----
 map_ratio_order <- map_ratio %>%
   arrange(-ratio)%>%
   mutate(rep_percent = ifelse(
@@ -63,23 +75,18 @@ map_ratio_order <- map_ratio %>%
   arrange(-rep_percent)
 ```
 
-```{r}
-ratio_plot <-ggplot(map_ratio_order, aes(x = fct_inorder(cand_office_state), 
-                               y = ratio, 
-                               fill = cand_party_affiliation))+
+
+```{r,fig.height=12, fig.width=10, message=FALSE, echo=FALSE}
+#plotting dataframe----
+ratio_plot <-ggplot(map_ratio_order, aes(x = fct_inorder(cand_office_state), y = ratio, 
+          fill = cand_party_affiliation))+
   geom_bar(stat="identity", position="fill")+
   scale_fill_manual(values = c("DEM" = "#0C25D4", "REP" = "#DC143C"))+
-<<<<<<< HEAD
-  theme_minimal() 
-=======
-  theme_minimal()+
-<<<<<<< HEAD
-  labs(title = "Amount of Money Donated to Each State in 2012 House Election", x= "State", y="Percent of Total Donation Per Party")
->>>>>>> 3effc279a591efbd2d4d615a53fd916f21a3ac0b
-=======
-  labs(title = "Amount of Money Donated to Each State in 2012 House Election", x= "State", y="Percent of Total Donations By Party")+
-  coord_flip()
->>>>>>> 3693095f79b9a46dd12455ec608ba826539f800c
+
+  labs(title = "Money Donated To or Against Candidates in 2012 House Election", subtitle = "Organized by State and Candidate's Party", x= "State", y="Percent of Donations by Candidate's Party", fill="Party Affiliation")+
+  coord_flip()+
+ geom_hline(yintercept = 0.5, color = "black")+
+  scale_y_continuous(labels = c("0%", "25%", "50%", "75%", "100%"))
 
 ratio_plot
 ```
